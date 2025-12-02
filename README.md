@@ -1,6 +1,8 @@
 A tiny conversational alien that learns about Earth.  
 No cloud, no API keys, 100 % Python std-lib + 120 curated questions.
 
+This is my first attempt at a Rule-Based ChatBot. Created for fun.
+
 example chat flow:
 
 - hi -
