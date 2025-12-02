@@ -1,31 +1,25 @@
 #!/usr/bin/env python3
-"""""""""
-alien_bot.py  –  A friendly alien that learns about Earth.
-MIT licence – feel free to upload to GitHub.
-"""""""""
-from __future__ import annotations
-import re
-import random
-import textwrap
-from typing import Dict, List, Optional, Tuple
-
-GREETING = """
-╔══════════════════════════════════════════════════════════════╗
-║  Hello Earthling!  I’m Nehera from the Wayward Galaxies. ║
-║  I’d love to learn about your planet.  (Say bye to exit.)  ║
-╚══════════════════════════════════════════════════════════════╝
 """
+alien_bot.py  –  conversational alien, now with 120 curated questions
+MIT licence
+"""
+from __future__ import annotations
+import json
+import random
+import os
+import re
+from typing import List, Optional
+
 
 class AlienBot:
-    # ---------- static patterns ----------
-    EXIT_WORDS = {"quit", "pause", "exit", "goodbye", "bye", "later", "got to go"}
-    YES = {"yes", "yeah", "yep", "y", "sure", "ok", "okay", "definitely"}
-    NO = {"no", "nope", "nah", "naw", "not really", "never"}
-    GREET_WORDS = {"hi", "hello", "hey", "greetings", "hiya"}
+    EXIT_WORDS = {"quit", "pause", "exit", "goodbye", "bye", "later", "got to go", "see you", "farewell", "catch you later", "i'm out", "i am out"}
+    YES = {"yes", "yeah", "yep", "y", "sure", "ok", "okay", "definitely", "absolutely", "of course", "certainly", "affirmative", "indeed", "yessir", "yea"}
+    NO = {"no", "nope", "nah", "naw", "not really", "never", "nope", "negative", "nay", "absolutely not", "not at all"}
+    GREET_WORDS = {"hi", "hello", "hey", "greetings", "hiya", "yo", "salutations", "sup", "good morning", "good afternoon", "good evening", "howdy"}
 
     # ---------- regex intents ----------
-    INTENT_RE: Dict[str, re.Pattern[str]] = {
-        "describe_planet": re.compile(r".*\b(?:your|alien|Nehera['’]?s?)\s+planet\b.*", re.I),
+    INTENT_RE = {
+        "describe_planet": re.compile(r".*\b(?:your|alien|et cetera['’]?s?)\s+planet\b.*", re.I),
         "why_here": re.compile(r".*\bwhy\s+are\s+you\s+(?:here|on\s+earth)\b.*", re.I),
         "cube": re.compile(r".*\bcube(?:\s+the\s+number)?\s+(\d+)\b.*", re.I),
         "weather": re.compile(r".*\bweather\s+(?:in|on|at)\s+([a-z]{2,})\b.*", re.I),
@@ -35,48 +29,69 @@ class AlienBot:
 
     def __init__(self) -> None:
         self.name: Optional[str] = None
-        self.memory: List[str] = []  # things the human said
+        self.asked: set[str] = set()
+        self._load_questions()
 
-    # ---------- entry point ----------
+    # --------------------------------------------------
+    # 1.  QUESTION LOADER
+    # --------------------------------------------------
+    def _load_questions(self) -> None:
+        path = os.path.join(os.path.dirname(__file__), "questions.json")
+        with open(path, encoding="utf-8") as fh:
+            self.question_bank: dict[str, list[str]] = json.load(fh)
+
+    def next_question(self) -> str:
+        """Return a question never asked before (cycle when exhausted)."""
+        pool = [q for qs in self.question_bank.values() for q in qs if q not in self.asked]
+        if not pool:
+            self.asked.clear()
+            pool = [q for qs in self.question_bank.values() for q in qs]
+        q = random.choice(pool)
+        self.asked.add(q)
+        return q
+
+    # --------------------------------------------------
+    # 2.  CONVERSATION FLOW
+    # --------------------------------------------------
     def run(self) -> None:
-        print(GREETING)
+        print("╔══════════════════════════════════════════════════════════════╗")
+        print("║  Hello Earthling!  I’m Etcetera from the Wayward Galaxies. ║")
+        print("║  I’d love to learn about your planet.  (Say bye to exit.)  ║")
+        print("╚══════════════════════════════════════════════════════════════╝")
         self._ask_name()
         self.chat()
         print("\nSafe travels across the stars ✨")
 
-    # ---------- name ----------
     def _ask_name(self) -> None:
         ans = input("What should I call you? > ").strip()
         self.name = ans or "Earthling"
         print(f"Nice to meet you, {self.name}!\n")
 
-    # ---------- main loop ----------
     def chat(self) -> None:
         while True:
             user = input("> ").strip()
             if not user:
                 continue
-            self.memory.append(user)
             if self._wants_exit(user):
                 return
             print(self._reply(user))
 
-    # ---------- helpers ----------
     def _wants_exit(self, text: str) -> bool:
         return any(w in text.lower() for w in self.EXIT_WORDS)
 
+    # --------------------------------------------------
+    # 3.  REPLY ENGINE
+    # --------------------------------------------------
     def _reply(self, text: str) -> str:
         t = text.lower()
 
-        # small-talk reactions
+        # small talk
         if any(g in t for g in self.GREET_WORDS):
-            return random.choice(
-                [
-                    f"Hello again, {self.name}!",
-                    "Greetings, carbon-based life-form.",
-                    "Salutations! 🖖",
-                ]
-            )
+            return random.choice(["Hello again!", "Greetings 🖖", "Salutations!"])
+        if t in self.YES:
+            return "Splendid!"
+        if t in self.NO:
+            return "Understood."
 
         # intent matches
         for intent, pattern in self.INTENT_RE.items():
@@ -96,24 +111,8 @@ class AlienBot:
             if intent == "eat":
                 return self._eat()
 
-        # yes/no
-        if t in self.YES:
-            return "Splendid!"
-        if t in self.NO:
-            return "Understood."
-
-        # memory reflection fallback
-        if len(self.memory) > 1:
-            snippet = " ".join(self.memory[-1].split()[:4])
-            return f"You said '{snippet}'... intriguing. Tell me more!"
-
-        return random.choice(
-            [
-                "Please elaborate.",
-                "That’s fascinating. Go on.",
-                "Why do you say that?",
-            ]
-        )
+        # fallback → ask something new
+        return self.next_question()
 
     # ---------- intent handlers ----------
     def _describe_planet(self) -> str:
@@ -155,6 +154,6 @@ class AlienBot:
         )
 
 
-# -------------------- run --------------------
+# --------------------------------------------------
 if __name__ == "__main__":
     AlienBot().run()

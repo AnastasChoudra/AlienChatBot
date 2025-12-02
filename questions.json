@@ -1,0 +1,122 @@
+{
+  "tech": [
+    "What technology do you have here that impresses you most?",
+    "Do you carry a small computer in your pocket every day?",
+    "How do you communicate over long distances?",
+    "Is there an invention you couldn't live without?",
+    "What energy sources power your cities?",
+    "Do you have self-driving vehicles?",
+    "How do you protect data from thieves?",
+    "What does a typical computer look like?",
+    "Can machines think on your planet?",
+    "Do you use robots in everyday life?"
+  ],
+  "food": [
+    "What do you usually eat in a day?",
+    "Is there food you love but others hate?",
+    "How many meals do you eat per day?",
+    "What is your favourite flavour?",
+    "Do you cook or buy ready-made meals?",
+    "What drink wakes you up in the morning?",
+    "Is there a dish unique to your region?",
+    "Do you grow plants for food at home?",
+    "What food is eaten at celebrations?",
+    "Have you ever eaten something alive?"
+  ],
+  "nature": [
+    "What animals live near your home?",
+    "Do you have pets?",
+    "What does a sunrise look like?",
+    "How many moons circle your planet?",
+    "What is the tallest mountain you have seen?",
+    "Do dangerous creatures roam your forests?",
+    "What natural sounds do you hear at night?",
+    "How do you protect endangered species?",
+    "What is the climate where you live?",
+    "Have you ever seen an aurora?"
+  ],
+  "social": [
+    "How do you greet a stranger?",
+    "What’s a polite way to refuse a request?",
+    "Do you hug or shake hands?",
+    "How do you show respect to elders?",
+    "What topics are considered rude to ask?",
+    "How do you apologise when you make a mistake?",
+    "Do you tip people for services?",
+    "What is a common wedding tradition?",
+    "How do you celebrate birthdays?",
+    "Do you exchange gifts regularly?"
+  ],
+  "fun": [
+    "What games do you play for fun?",
+    "Is there a sport everyone watches?",
+    "Do you sing or dance for entertainment?",
+    "What was the last film you watched?",
+    "Do you have virtual-reality experiences?",
+    "What music do you listen to?",
+    "Have you ever been to a theatre?",
+    "Do you read fiction stories?",
+    "What hobby would you teach me first?",
+    "Is gambling allowed in your culture?"
+  ],
+  "space": [
+    "Have you visited other planets?",
+    "Do you believe life exists elsewhere?",
+    "What does Earth look like from your skies?",
+    "Have you seen a comet up close?",
+    "Do you track asteroids that might hit you?",
+    "What constellations do you recognise?",
+    "Would you travel to Mars if it were safe?",
+    "What is your brightest star at night?",
+    "Do you worship any celestial bodies?",
+    "How do you measure a light-year?"
+  ],
+  "time": [
+    "How do you measure time?",
+    "What does a clock look like?",
+    "Do you have daylight-saving shifts?",
+    "What is your favourite time of day?",
+    "How long is a work day?",
+    "Do you take naps?",
+    "What happens at midnight?",
+    "How do you celebrate New Year?",
+    "Do you have weekends?",
+    "What is the longest day of the year called?"
+  ],
+  "emotion": [
+    "How do you show happiness?",
+    "What do you do when you feel sad?",
+    "Is crying considered weak or normal?",
+    "How do you calm yourself when angry?",
+    "Do you laugh out loud in public?",
+    "What scares you the most?",
+    "Do you talk about feelings openly?",
+    "What gives you hope?",
+    "How do you comfort a friend?",
+    "Is love the same for everyone?"
+  ],
+  "body": [
+    "How many senses do you possess?",
+    "What happens when you get sick?",
+    "Do you sleep every night?",
+    "How long can you survive without water?",
+    "What is the average life span?",
+    "Do you exercise to stay healthy?",
+    "What does a doctor do?",
+    "Is pain felt the same by everyone?",
+    "Do you dream while asleep?",
+    "Can you regenerate lost limbs?"
+  ],
+  "future": [
+    "What will transportation look like in fifty years?",
+    "Do you think robots will replace jobs?",
+    "Would you upload your mind into a computer?",
+    "Is climate change a worry?",
+    "Do you expect to meet aliens soon?",
+    "What invention is needed most?",
+    "Will humans live on other planets?",
+    "Does your species plan to evolve further?",
+    "What legacy do you want to leave?",
+    "How would you like to be remembered?"
+  ]
+}
