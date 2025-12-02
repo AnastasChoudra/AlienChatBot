@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 alien_bot.py  –  conversational alien, now with 120 curated questions
-MIT licence
 """
 from __future__ import annotations
 import json
@@ -66,6 +65,7 @@ class AlienBot:
         ans = input("What should I call you? > ").strip()
         self.name = ans or "Earthling"
         print(f"Nice to meet you, {self.name}!\n")
+        self._show_capabilities()
 
     def chat(self) -> None:
         while True:
@@ -85,15 +85,7 @@ class AlienBot:
     def _reply(self, text: str) -> str:
         t = text.lower()
 
-        # small talk
-        if any(g in t for g in self.GREET_WORDS):
-            return random.choice(["Hello again!", "Greetings 🖖", "Salutations!"])
-        if t in self.YES:
-            return "Splendid!"
-        if t in self.NO:
-            return "Understood."
-
-        # intent matches
+        # 1.  INTENT MATCHES FIRST  (same as before)
         for intent, pattern in self.INTENT_RE.items():
             m = pattern.search(text)
             if not m:
@@ -111,7 +103,23 @@ class AlienBot:
             if intent == "eat":
                 return self._eat()
 
-        # fallback → ask something new
+        # 2.  COMMON SMALL-TALK PHRASES  (new)
+        if re.search(r"\bhow\s+are\s+you\b", t):
+            return "I’m functioning perfectly—my fuel cell is at 100 %! How are *you* feeling?"
+        if re.search(r"\bwhere\s+are\s+you\s+from\b", t):
+            return "I hail from Opidipus, capital of the Wayward Galaxies. And you—where do you call home?"
+
+        # 3.  ONE-WORD GREETING  (only if single token)
+        tokens = t.split()
+        if len(tokens) == 1 and tokens[0] in self.GREET_WORDS:
+            return random.choice(["Hello again!", "Salutations! 🖖", "Greetings!"])
+
+        if t in self.YES:
+            return "Splendid!"
+        if t in self.NO:
+            return "Understood."
+
+        # 4.  FALLBACK → ask something new
         return self.next_question()
 
     # ---------- intent handlers ----------
@@ -152,7 +160,17 @@ class AlienBot:
                 "Today I had photon soup—delicious!",
             ]
         )
-
+    def _show_capabilities(self) -> None:
+        print(textwrap.dedent("""\
+        ╔════════════════════════════════════════════════════════════════════╗
+        ║  I understand a few things already – try these if you like:        ║
+        ║   • “cube 7”  |  “what is the weather in Paris”                   ║
+        ║   • “why are you here?”  |  “tell me about your planet”          ║
+        ║   • “how many humans are there?”  |  “what do you eat?”          ║
+        ║  (I’ll also ask *you* lots of questions – answer or ignore them!) ║
+        ║  Say **bye** any time to leave.                                   ║
+        ╚════════════════════════════════════════════════════════════════════╝
+        """))
 
 # --------------------------------------------------
 if __name__ == "__main__":
